@@ -62,17 +62,17 @@ export default function Contact() {
               {
                 icon: <PhoneIcon className="h-6 w-6 text-indigo-600" />,
                 title: "Phone",
-                content: "+90 (212) 123 45 67",
+                content: "+90 555 555 55 55",
               },
               {
                 icon: <EnvelopeIcon className="h-6 w-6 text-indigo-600" />,
                 title: "Email",
-                content: "info@archstudio.com",
+                content: "info@mail.com",
               },
               {
                 icon: <MapPinIcon className="h-6 w-6 text-indigo-600" />,
                 title: "Address",
-                content: "Levent District, Buyukdere Avenue No:123 D:4 Besiktas/Istanbul",
+                content: "Levent, Istanbul, Turkey",
               },
               {
                 icon: <ClockIcon className="h-6 w-6 text-indigo-600" />,
@@ -144,7 +144,7 @@ export default function Contact() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-gray-600 shadow-sm focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-white"
-                    placeholder="+90 123 456 78 90"
+                    placeholder="+90 555 555 55 55"
                   />
                 </div>
 

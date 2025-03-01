@@ -1,8 +1,9 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
 import OptimizedImage from './common/OptimizedImage'
 import { Helmet } from 'react-helmet'
+import { Link } from 'react-router-dom'
 
-export default function Blog() {
+export default function Blog({ blogs }) {
   const [hoveredId, setHoveredId] = useState(null)
   const [showAll, setShowAll] = useState(false)
   const [visiblePosts, setVisiblePosts] = useState([])
@@ -136,10 +137,11 @@ export default function Blog() {
             {visiblePosts.map((post) => (
               <article 
                 key={post.id} 
-                className="flex flex-col overflow-hidden rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105"
+                className="flex flex-col overflow-hidden rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl hover:cursor-pointer"
                 onMouseEnter={() => handleMouseEnter(post.id)}
                 onMouseLeave={handleMouseLeave}
               >
+                      <Link to={`/blog/${post.id}`}>
                 <div className="flex-shrink-0 h-48">
                   {imagesPreloaded ? (
                     <img
@@ -158,7 +160,7 @@ export default function Blog() {
                       {post.category}
                     </p>
                     <div className="mt-2 block">
-                      <p className="text-xl font-semibold text-gray-900 dark:text-white">{post.title}</p>
+                        <p className="text-xl font-semibold text-gray-900 dark:text-white">{post.title}</p> 
                       <p className="mt-3 text-base text-gray-500 dark:text-gray-400">{post.excerpt}</p>
                     </div>
                   </div>
@@ -170,6 +172,7 @@ export default function Blog() {
                     </div>
                   </div>
                 </div>
+                </Link>
               </article>
             ))}
           </div>

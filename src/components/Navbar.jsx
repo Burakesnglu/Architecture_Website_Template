@@ -69,8 +69,8 @@ export default function Navbar() {
     e.preventDefault()
     setIsMenuOpen(false)
 
-    // If we're on ProjectDetail page, redirect to homepage with hash
-    if (location.pathname.includes('/project/')) {
+    // If we're on ProjectDetail or BlogDetail page, redirect to homepage with hash
+    if (location.pathname.includes('/project/') || location.pathname.includes('/blog/')) {
       navigate('/' + href)
       return
     }

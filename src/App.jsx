@@ -11,6 +11,7 @@ const About = lazy(() => import('./components/About'))
 const Projects = lazy(() => import('./components/Projects'))
 const ProjectDetail = lazy(() => import('./components/ProjectDetail'))
 const Blog = lazy(() => import('./components/Blog'))
+const BlogDetail = lazy(() => import('./components/BlogDetail'))
 const Contact = lazy(() => import('./components/Contact'))
 const Footer = lazy(() => import('./components/Footer'))
 
@@ -101,6 +102,14 @@ export default function App() {
                     element={
                       <Suspense fallback={<LoadingSpinner />}>
                         <ProjectDetail />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="/blog/:id"
+                    element={
+                      <Suspense fallback={<LoadingSpinner />}>
+                        <BlogDetail />
                       </Suspense>
                     }
                   />

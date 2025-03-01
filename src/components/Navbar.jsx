@@ -60,6 +60,7 @@ export default function Navbar() {
     { href: '#home', text: 'Home' },
     { href: '#about', text: 'About' },
     { href: '#projects', text: 'Projects' },
+    { href: '/portfolio', text: 'Portfolio' },
     { href: '#blog', text: 'Blog' },
     { href: '#contact', text: 'Contact' }
   ]
@@ -69,9 +70,20 @@ export default function Navbar() {
     e.preventDefault()
     setIsMenuOpen(false)
 
+    // For standalone pages, just navigate directly
+    if (href === '/portfolio') {
+      navigate('/portfolio')
+      return
+    }
+
     // If we're on ProjectDetail or BlogDetail page, redirect to homepage with hash
-    if (location.pathname.includes('/project/') || location.pathname.includes('/blog/')) {
-      navigate('/' + href)
+    if (location.pathname.includes('/project/') || location.pathname.includes('/blog/') || location.pathname.includes('/portfolio/') || location.pathname === '/portfolio') {
+      // Check if it's a hash link
+      if (href.startsWith('#')) {
+        navigate('/' + href)
+      } else {
+        navigate(href)
+      }
       return
     }
 
@@ -94,9 +106,7 @@ export default function Navbar() {
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white dark:bg-gray-800 shadow-lg' 
-          : 'bg-black/20'
+        isDarkMode ? 'bg-gray-800' : 'bg-white'
       }`}
       ref={navRef}
       style={{ willChange: 'transform, opacity' }}
@@ -109,11 +119,9 @@ export default function Navbar() {
                 href="/" 
                 onClick={(e) => {
                   e.preventDefault();
-                  // Eğer ProjectDetail sayfasındaysak veya başka bir sayfadaysak, ana sayfaya yönlendir
                   if (location.pathname !== '/') {
                     navigate('/');
                   } else {
-                    // Eğer zaten ana sayfadaysak, sayfanın en üstüne smooth scroll yap
                     window.scrollTo({
                       top: 0,
                       behavior: 'smooth'
@@ -121,7 +129,7 @@ export default function Navbar() {
                   }
                 }}
                 className={`text-2xl font-bold ${
-                  isScrolled ? 'text-gray-900 dark:text-white' : 'text-white'
+                  isScrolled ? (isDarkMode ? 'text-white' : 'text-gray-900') : (isDarkMode ? 'text-white' : 'text-gray-900')
                 }`}
                 style={{ willChange: 'color' }}
               >
@@ -137,8 +145,8 @@ export default function Navbar() {
                 onClick={(e) => handleNavClick(e, link.href)}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300 ${
                   isScrolled 
-                    ? 'text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700' 
-                    : 'text-white hover:bg-white/20'
+                    ? (isDarkMode ? 'text-white hover:bg-gray-700' : 'text-gray-900 hover:bg-gray-100')
+                    : (isDarkMode ? 'text-white hover:bg-gray-700' : 'text-gray-900 hover:bg-white/20')
                 }`}
                 style={{ willChange: 'color' }}
               >
@@ -148,9 +156,9 @@ export default function Navbar() {
             <button
               onClick={toggleTheme}
               className={`p-2 rounded-lg transition-colors duration-300 ${
-                isScrolled 
-                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600' 
-                  : 'bg-white/20 text-white hover:bg-white/30'
+                isDarkMode 
+                  ? 'bg-gray-700 text-white hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
               }`}
               aria-label="Toggle dark mode"
             >

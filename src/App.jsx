@@ -10,6 +10,8 @@ const Hero = lazy(() => import('./components/Hero'))
 const About = lazy(() => import('./components/About'))
 const Projects = lazy(() => import('./components/Projects'))
 const ProjectDetail = lazy(() => import('./components/ProjectDetail'))
+const Portfolio = lazy(() => import('./components/Portfolio'))
+const PortfolioDetail = lazy(() => import('./components/PortfolioDetail'))
 const Blog = lazy(() => import('./components/Blog'))
 const BlogDetail = lazy(() => import('./components/BlogDetail'))
 const Contact = lazy(() => import('./components/Contact'))
@@ -110,6 +112,22 @@ export default function App() {
                     element={
                       <Suspense fallback={<LoadingSpinner />}>
                         <BlogDetail />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="/portfolio"
+                    element={
+                      <Suspense fallback={<LoadingSpinner />}>
+                        <Portfolio />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="/portfolio/:id"
+                    element={
+                      <Suspense fallback={<LoadingSpinner />}>
+                        <PortfolioDetail />
                       </Suspense>
                     }
                   />

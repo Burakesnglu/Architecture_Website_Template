@@ -1,0 +1,80 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="500" fill="#f9fafb"/>
+  
+  <!-- Sidebar -->
+  <rect x="0" y="0" width="250" height="500" fill="#f1f4f9"/>
+  
+  <!-- Sidebar Header -->
+  <rect x="0" y="0" width="250" height="80" fill="#e5e7eb"/>
+  <text x="30" y="35" font-family="Arial" font-size="18" font-weight="bold" fill="#3B82F6">Architect Website</text>
+  <text x="30" y="60" font-family="Arial" font-size="14" fill="#666">Documentation</text>
+  
+  <!-- Sidebar Navigation -->
+  <rect x="20" y="100" width="210" height="40" rx="5" fill="#dbeafe"/>
+  <text x="50" y="125" font-family="Arial" font-size="14" fill="#3B82F6">Introduction</text>
+  <circle cx="35" cy="120" r="8" fill="#3B82F6"/>
+  
+  <text x="50" y="175" font-family="Arial" font-size="14" fill="#333">Installation</text>
+  <circle cx="35" cy="170" r="8" fill="#666"/>
+  
+  <text x="50" y="225" font-family="Arial" font-size="14" fill="#333">Project Structure</text>
+  <circle cx="35" cy="220" r="8" fill="#666"/>
+  
+  <text x="50" y="275" font-family="Arial" font-size="14" fill="#333">Customization</text>
+  <circle cx="35" cy="270" r="8" fill="#666"/>
+  
+  <text x="50" y="325" font-family="Arial" font-size="14" fill="#333">Components</text>
+  <circle cx="35" cy="320" r="8" fill="#666"/>
+  
+  <text x="50" y="375" font-family="Arial" font-size="14" fill="#333">Pages</text>
+  <circle cx="35" cy="370" r="8" fill="#666"/>
+  
+  <!-- Main Content -->
+  <rect x="250" y="0" width="550" height="60" fill="#fff" stroke="#e5e7eb" stroke-width="1"/>
+  
+  <!-- Search Bar -->
+  <rect x="280" y="15" width="250" height="30" rx="15" fill="#f1f4f9"/>
+  <text x="300" y="35" font-family="Arial" font-size="12" fill="#666">Search documentation...</text>
+  <circle cx="510" cy="30" r="8" fill="#666"/>
+  
+  <!-- Theme Toggle -->
+  <circle cx="750" cy="30" r="12" fill="#f1f4f9"/>
+  <path d="M750 24 A6 6 0 0 0 750 36 A6 6 0 0 0 750 24" fill="#666"/>
+  
+  <!-- Content Header -->
+  <text x="280" y="100" font-family="Arial" font-size="28" font-weight="bold" fill="#333">Architect Website Documentation</text>
+  <rect x="280" y="115" width="100" height="25" rx="12" fill="#3B82F6"/>
+  <text x="295" y="132" font-family="Arial" font-size="12" fill="#fff">Version 1.0.0</text>
+  
+  <text x="280" y="160" font-family="Arial" font-size="14" fill="#666">Architect Website is a professional React.js theme designed for modern architecture firms. This documentation provides detailed information about the installation, customization, and usage of the theme.</text>
+  
+  <!-- Feature Cards -->
+  <rect x="280" y="200" width="230" height="150" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1"/>
+  <circle cx="395" cy="240" r="20" fill="#dbeafe"/>
+  <text x="390" cy="245" font-family="Arial" font-size="18" font-weight="bold" fill="#3B82F6">⚡</text>
+  <text x="395" y="280" font-family="Arial" font-size="16" font-weight="bold" fill="#333" text-anchor="middle">Fast &amp; Optimized</text>
+  <text x="395" y="310" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">High-performance theme</text>
+  <text x="395" y="330" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">built with Vite</text>
+  
+  <rect x="530" y="200" width="230" height="150" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1"/>
+  <circle cx="645" cy="240" r="20" fill="#dbeafe"/>
+  <text x="640" cy="245" font-family="Arial" font-size="18" font-weight="bold" fill="#3B82F6">📱</text>
+  <text x="645" y="280" font-family="Arial" font-size="16" font-weight="bold" fill="#333" text-anchor="middle">Fully Responsive</text>
+  <text x="645" y="310" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">Perfect display on</text>
+  <text x="645" y="330" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">all devices</text>
+  
+  <rect x="280" y="370" width="230" height="150" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1"/>
+  <circle cx="395" cy="410" r="20" fill="#dbeafe"/>
+  <text x="390" cy="415" font-family="Arial" font-size="18" font-weight="bold" fill="#3B82F6">🎨</text>
+  <text x="395" y="450" font-family="Arial" font-size="16" font-weight="bold" fill="#333" text-anchor="middle">Modern Design</text>
+  <text x="395" y="480" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">Elegant and contemporary</text>
+  <text x="395" y="500" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">user interface</text>
+  
+  <rect x="530" y="370" width="230" height="150" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1"/>
+  <circle cx="645" cy="410" r="20" fill="#dbeafe"/>
+  <text x="640" cy="415" font-family="Arial" font-size="18" font-weight="bold" fill="#3B82F6">💻</text>
+  <text x="645" y="450" font-family="Arial" font-size="16" font-weight="bold" fill="#333" text-anchor="middle">Clean Code</text>
+  <text x="645" y="480" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">Well-organized and</text>
+  <text x="645" y="500" font-family="Arial" font-size="12" fill="#666" text-anchor="middle">maintainable code</text>
+</svg> 

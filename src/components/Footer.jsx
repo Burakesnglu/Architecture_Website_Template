@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo and Description */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold">ARCH TEMPLATE</h3>
+            <h3 className="text-2xl font-bold">TEMARCH</h3>
             <p className="text-gray-400 dark:text-gray-500">
               We offer modern architectural solutions and innovative designs.
             </p>
@@ -78,7 +78,7 @@ export default function Footer() {
                 <svg className="w-6 h-6 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                <span className="text-gray-400 dark:text-gray-500">+90 555 555 55 55</span>
+                <span className="text-gray-400 dark:text-gray-500">+1 234 5678 90 00</span>
               </li>
             </ul>
           </div>
@@ -88,7 +88,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 dark:border-gray-700 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 dark:text-gray-500 text-sm">
-              &copy; 2024 ARCH TEMPLATE. All rights reserved.
+              &copy; 2024 TEMARCH. All rights reserved.
             </p>
             <div className="mt-4 md:mt-0">
               <a href="#" className="text-gray-400 dark:text-gray-500 hover:text-white dark:hover:text-gray-300 text-sm transition-colors duration-300 mx-3">

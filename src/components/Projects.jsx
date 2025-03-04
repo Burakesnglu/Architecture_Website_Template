@@ -1,13 +1,82 @@
-import { useState, useMemo, useCallback, useRef } from 'react'
+import { useState, useMemo, useCallback, useRef, memo } from 'react'
 import { Link } from 'react-router-dom'
 import OptimizedImage from './common/OptimizedImage'
+
+// Performans için ProjectCard'ı memo ile sarıyoruz
+const ProjectCard = memo(({ project, isHovered, onMouseEnter, onMouseLeave }) => {
+  return (
+    <div
+      className="group relative overflow-hidden rounded-xl bg-white dark:bg-gray-600 shadow-lg transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl will-change-transform"
+      onMouseEnter={() => onMouseEnter(project.id)}
+      onMouseLeave={onMouseLeave}
+    >
+      {/* Project Image */}
+      <div className="relative h-72 overflow-hidden">
+        <img
+          src={project.image}
+          alt={project.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 will-change-transform"
+          loading="lazy"
+          decoding="async"
+          width="800"
+          height="600"
+        />
+        {/* Category Tag */}
+        <div className="absolute top-4 right-4">
+          <span className="bg-black bg-opacity-80 text-white text-xs font-medium px-3 py-1 rounded-full">
+            {project.category}
+          </span>
+        </div>
+        {/* Overlay */}
+        <div 
+          className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300 flex items-end justify-start p-6"
+        />
+        {/* Button */}
+        <div 
+          className={`absolute bottom-0 left-0 right-0 p-6 transform transition-all duration-300 ${
+            isHovered ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          } will-change-transform will-change-opacity`}
+        >
+          <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+          <p className="text-gray-200 flex items-center mb-4">
+            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {project.location}
+          </p>
+          <Link 
+            to={`/project/${project.id}`}
+            className="inline-block bg-white text-black px-6 py-2 rounded-md transition-colors duration-200 hover:bg-gray-100 hover:shadow-md"
+          >
+            View Details
+          </Link>
+        </div>
+      </div>
+      
+      {/* Project Information (visible only when not hovered) */}
+      <div className={`p-6 transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{project.title}</h3>
+        <p className="text-gray-600 dark:text-gray-300 flex items-center">
+          <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          {project.location}
+        </p>
+      </div>
+    </div>
+  );
+});
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [hoveredId, setHoveredId] = useState(null)
   const hoverTimeoutRef = useRef(null)
+  const projectsContainerRef = useRef(null)
 
-  const projects = [
+  // Projeleri useMemo ile optimize ediyoruz
+  const projects = useMemo(() => [
     {
       id: 1,
       title: "Modern Villa Project",
@@ -98,42 +167,36 @@ export default function Projects() {
         completion: "2025"
       }
     }
-  ]
+  ], []);
 
-  // Memoize filtered projects for performance
+  // Filtrelemeyi useMemo ile optimize ediyoruz
   const filteredProjects = useMemo(() => {
     return projects.filter(project => 
       activeCategory === 'All' || project.category === activeCategory
     )
-  }, [activeCategory])
+  }, [activeCategory, projects]);
 
-  // Memoize hover handlers for performance
+  // Event handler'larını useCallback ile optimize ediyoruz
   const handleMouseEnter = useCallback((id) => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current)
     }
-    requestAnimationFrame(() => {
-      setHoveredId(id)
-    })
-  }, [])
+    setHoveredId(id)
+  }, []);
 
   const handleMouseLeave = useCallback(() => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current)
     }
     hoverTimeoutRef.current = setTimeout(() => {
-      requestAnimationFrame(() => {
-        setHoveredId(null)
-      })
+      setHoveredId(null)
     }, 50)
-  }, [])
+  }, []);
 
-  // Optimize category change with requestAnimationFrame
+  // Kategori değiştirmeyi useCallback ile optimize ediyoruz
   const handleCategoryChange = useCallback((category) => {
-    requestAnimationFrame(() => {
-      setActiveCategory(category)
-    })
-  }, [])
+    setActiveCategory(category)
+  }, []);
 
   return (
     <section id="projects" className="py-20 bg-gray-50 dark:bg-gray-700">
@@ -166,61 +229,17 @@ export default function Projects() {
 
         {/* Project Grid */}
         <div 
+          ref={projectsContainerRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          style={{ willChange: 'transform' }}
         >
           {filteredProjects.map((project) => (
-            <div
+            <ProjectCard
               key={project.id}
-              className="group relative overflow-hidden rounded-lg bg-white dark:bg-gray-600 shadow-lg transform transition-transform duration-150 hover:-translate-y-1"
-              onMouseEnter={() => handleMouseEnter(project.id)}
+              project={project}
+              isHovered={hoveredId === project.id}
+              onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
-              style={{ willChange: 'transform' }}
-            >
-              {/* Project Image */}
-              <div className="relative h-64 overflow-hidden">
-                <OptimizedImage
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                />
-                {/* Overlay */}
-                <div 
-                  className={`absolute inset-0 bg-black transition-opacity duration-150 flex items-center justify-center
-                    ${hoveredId === project.id ? 'opacity-70' : 'opacity-0'}`}
-                  style={{ willChange: 'opacity' }}
-                />
-                {/* Button */}
-                <div 
-                  className={`absolute inset-0 flex items-center justify-center transition-transform duration-150
-                    ${hoveredId === project.id ? 'translate-y-0' : 'translate-y-4'}`}
-                  style={{ willChange: 'transform' }}
-                >
-                  <Link 
-                    to={`/project/${project.id}`}
-                    className={`bg-white text-black px-6 py-2 rounded-full transition-opacity duration-150 hover:bg-gray-100 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500
-                      ${hoveredId === project.id ? 'opacity-100' : 'opacity-0'}`}
-                  >
-                    View Details
-                  </Link>
-                </div>
-              </div>
-              
-              {/* Project Information */}
-              <div className="p-6">
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-2 block">
-                  {project.category}
-                </span>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">{project.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  {project.location}
-                </p>
-              </div>
-            </div>
+            />
           ))}
         </div>
       </div>

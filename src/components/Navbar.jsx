@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { useDebounce } from '../hooks/useDebounce'
 import { useTheme } from '../context/ThemeContext'
 import { useLocation, useNavigate } from 'react-router-dom'
+import logo from '../assets/logo.png'
 
 export default function Navbar() {
   const { isDarkMode, toggleTheme } = useTheme()
@@ -107,7 +108,7 @@ export default function Navbar() {
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
         isDarkMode ? 'bg-gray-800' : 'bg-white'
-      }`}
+      } shadow-md`}
       ref={navRef}
       style={{ willChange: 'transform, opacity' }}
     >
@@ -133,7 +134,9 @@ export default function Navbar() {
                 }`}
                 style={{ willChange: 'color' }}
               >
-                ARCH TEMPLATE
+                {/* you can set a logo here */}
+                {/* <img src={logo} alt="TEMARCH Logo" className="h-16" /> */}
+                TEMARCH
               </a>
             </div>
           </div>

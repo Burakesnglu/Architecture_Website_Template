@@ -1,22 +1,69 @@
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react'
+import { useState, useCallback, useRef, useEffect, useMemo, memo } from 'react'
 import OptimizedImage from './common/OptimizedImage'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
+
+// PostCard bileşenini memo ile sararak gereksiz render'ları önlüyoruz
+const PostCard = memo(({ post, onMouseEnter, onMouseLeave }) => (
+  <article 
+    key={post.id} 
+    className="group relative flex flex-col overflow-hidden border-0 border-b border-gray-200 dark:border-gray-700 transform transition-all duration-300 hover:-translate-y-1"
+    onMouseEnter={() => onMouseEnter(post.id)}
+    onMouseLeave={onMouseLeave}
+  >
+    <Link to={`/blog/${post.id}`} className="flex flex-col h-full">
+      <div className="flex-shrink-0 aspect-[16/9] mb-6 overflow-hidden rounded-lg">
+        <img
+          src={post.image}
+          alt={post.title}
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          loading="lazy" // Görünüm alanına girene kadar resmi yükleme
+          decoding="async" // Async çözümleme
+          width="800"
+          height="450"
+        />
+      </div>
+      <div className="flex flex-1 flex-col pb-6">
+        <div className="flex items-center gap-2 mb-4">
+          <span className="px-3 py-1 text-xs font-semibold bg-indigo-50 text-indigo-600 rounded-full dark:bg-indigo-900 dark:text-indigo-200">
+            {post.category}
+          </span>
+          <time dateTime={post.date} className="text-sm text-gray-500 dark:text-gray-400">
+            {post.date}
+          </time>
+        </div>
+        <div className="flex-1">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors duration-200">
+            {post.title}
+          </h3>
+          <p className="mt-3 text-base text-gray-600 dark:text-gray-300">
+            {post.excerpt}
+          </p>
+        </div>
+        <div className="mt-5 inline-flex items-center text-indigo-600 dark:text-indigo-400 font-medium">
+          Read more
+          <svg className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </div>
+      </div>
+    </Link>
+  </article>
+));
 
 export default function Blog({ blogs }) {
   const [hoveredId, setHoveredId] = useState(null)
   const [showAll, setShowAll] = useState(false)
   const [visiblePosts, setVisiblePosts] = useState([])
-  const [imagesPreloaded, setImagesPreloaded] = useState(false)
   const hoverTimeoutRef = useRef(null)
+  const intersectionObserverRef = useRef(null)
 
+  // event handler'larını useCallback ile sabitliyoruz
   const handleMouseEnter = useCallback((id) => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current)
     }
-    requestAnimationFrame(() => {
-      setHoveredId(id)
-    })
+    setHoveredId(id)
   }, [])
 
   const handleMouseLeave = useCallback(() => {
@@ -24,12 +71,15 @@ export default function Blog({ blogs }) {
       clearTimeout(hoverTimeoutRef.current)
     }
     hoverTimeoutRef.current = setTimeout(() => {
-      requestAnimationFrame(() => {
-        setHoveredId(null)
-      })
+      setHoveredId(null)
     }, 50)
   }, [])
 
+  const toggleShowAll = useCallback(() => {
+    setShowAll(prev => !prev)
+  }, [])
+
+  // Blog postlarını useMemo ile bellek önbelleğine alıyoruz
   const blogPosts = useMemo(() => [
     {
       id: 1,
@@ -81,40 +131,45 @@ export default function Blog({ blogs }) {
     }
   ], []);
 
-  // Preload all images on component mount
-  useEffect(() => {
-    const preloadImages = async () => {
-      const imagePromises = blogPosts.map(post => {
-        return new Promise((resolve, reject) => {
-          const img = new Image();
-          img.src = post.image;
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-      });
-      
-      try {
-        await Promise.all(imagePromises);
-        setImagesPreloaded(true);
-      } catch (error) {
-        console.error("Failed to preload images:", error);
-        // Continue even if some images failed to load
-        setImagesPreloaded(true);
-      }
-    };
-    
-    preloadImages();
-  }, [blogPosts]);
-
   // Update visible posts when showAll changes
   useEffect(() => {
     setVisiblePosts(blogPosts.slice(0, showAll ? blogPosts.length : 3));
   }, [showAll, blogPosts]);
 
-  // Toggle function with proper state management
-  const toggleShowAll = () => {
-    setShowAll(prev => !prev);
-  };
+  // Intersection Observer ile lazy loading için
+  useEffect(() => {
+    // View All Articles butonunu gözlemleyelim
+    const loadMoreButton = document.getElementById('load-more-button');
+    if (!loadMoreButton) return;
+
+    const observerCallback = (entries) => {
+      entries.forEach(entry => {
+        // Kullanıcı butona yaklaştığında tüm blog postlarını önceden yükleyelim
+        if (entry.isIntersecting && !showAll) {
+          // Tüm postlar için resimler önceden yükleyelim
+          blogPosts.slice(3).forEach(post => {
+            const img = new Image();
+            img.src = post.image;
+          });
+        }
+      });
+    };
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '200px', // Buton görünüm alanından 200px öncesinde tetikle
+      threshold: 0.1
+    };
+
+    intersectionObserverRef.current = new IntersectionObserver(observerCallback, observerOptions);
+    intersectionObserverRef.current.observe(loadMoreButton);
+
+    return () => {
+      if (intersectionObserverRef.current) {
+        intersectionObserverRef.current.disconnect();
+      }
+    };
+  }, [blogPosts, showAll]);
 
   return (
     <>
@@ -133,55 +188,23 @@ export default function Blog({ blogs }) {
             </p>
           </div>
 
-          <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3 transition-all duration-500">
+          <div className="mt-16 grid gap-12 md:grid-cols-2 lg:grid-cols-3">
             {visiblePosts.map((post) => (
-              <article 
-                key={post.id} 
-                className="flex flex-col overflow-hidden rounded-lg shadow-lg transform transition-transform duration-500 hover:scale-105 hover:shadow-xl hover:cursor-pointer"
-                onMouseEnter={() => handleMouseEnter(post.id)}
+              <PostCard 
+                key={post.id}
+                post={post}
+                onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-              >
-                      <Link to={`/blog/${post.id}`}>
-                <div className="flex-shrink-0 h-48">
-                  {imagesPreloaded ? (
-                    <img
-                      src={post.image}
-                      alt={post.title}
-                      className="h-full w-full object-cover"
-                      loading="eager"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-gray-200 animate-pulse"></div>
-                  )}
-                </div>
-                <div className="flex flex-1 flex-col justify-between bg-white dark:bg-gray-800 p-6">
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-indigo-600 dark:text-indigo-400">
-                      {post.category}
-                    </p>
-                    <div className="mt-2 block">
-                        <p className="text-xl font-semibold text-gray-900 dark:text-white">{post.title}</p> 
-                      <p className="mt-3 text-base text-gray-500 dark:text-gray-400">{post.excerpt}</p>
-                    </div>
-                  </div>
-                  <div className="mt-6 flex items-center">
-                    <div className="ml-3">
-                      <div className="flex space-x-1 text-sm text-gray-500 dark:text-gray-400">
-                        <time dateTime={post.date}>{post.date}</time>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                </Link>
-              </article>
+              />
             ))}
           </div>
 
           {/* "View All Articles" Button */}
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <button 
+              id="load-more-button"
               onClick={toggleShowAll} 
-              className="bg-black text-white px-8 py-3 rounded-lg hover:bg-gray-800 transition-colors duration-300 animate-fade-in-up-delay-700"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-md transition-colors duration-300 shadow-md hover:shadow-lg"
             >
               {showAll ? 'Show Less' : 'View All Articles'}
             </button>

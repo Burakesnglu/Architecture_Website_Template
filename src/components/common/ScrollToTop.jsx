@@ -4,7 +4,7 @@ import { useDebounce } from '../../hooks/useDebounce'
 export default function ScrollToTop() {
   const [isVisible, setIsVisible] = useState(false)
   
-  // Scroll pozisyonunu debounce ile kontrol et
+  // Check scroll position with debounce
   const handleScroll = () => {
     setIsVisible(window.pageYOffset > 400)
   }
@@ -29,7 +29,7 @@ export default function ScrollToTop() {
       className={`fixed bottom-8 right-8 bg-black text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:bg-gray-800 z-50 ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
-      aria-label="Yukarı çık"
+      aria-label="Scroll to top"
     >
       <svg 
         className="w-6 h-6" 

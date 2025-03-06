@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback, useRef, memo } from 'react'
 import { Link } from 'react-router-dom'
 import OptimizedImage from './common/OptimizedImage'
 
-// Performans için ProjectCard'ı memo ile sarıyoruz
+// Wrapping ProjectCard with memo for performance
 const ProjectCard = memo(({ project, isHovered, onMouseEnter, onMouseLeave }) => {
   return (
     <div
@@ -75,7 +75,7 @@ export default function Projects() {
   const hoverTimeoutRef = useRef(null)
   const projectsContainerRef = useRef(null)
 
-  // Projeleri useMemo ile optimize ediyoruz
+  // Optimizing projects with useMemo
   const projects = useMemo(() => [
     {
       id: 1,
@@ -169,14 +169,14 @@ export default function Projects() {
     }
   ], []);
 
-  // Filtrelemeyi useMemo ile optimize ediyoruz
+  // Optimizing filtering with useMemo
   const filteredProjects = useMemo(() => {
     return projects.filter(project => 
       activeCategory === 'All' || project.category === activeCategory
     )
   }, [activeCategory, projects]);
 
-  // Event handler'larını useCallback ile optimize ediyoruz
+  // Optimizing event handlers with useCallback
   const handleMouseEnter = useCallback((id) => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current)
@@ -193,7 +193,7 @@ export default function Projects() {
     }, 50)
   }, []);
 
-  // Kategori değiştirmeyi useCallback ile optimize ediyoruz
+  // Optimizing category change with useCallback
   const handleCategoryChange = useCallback((category) => {
     setActiveCategory(category)
   }, []);

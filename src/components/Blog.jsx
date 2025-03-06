@@ -3,7 +3,7 @@ import OptimizedImage from './common/OptimizedImage'
 import { Helmet } from 'react-helmet'
 import { Link } from 'react-router-dom'
 
-// PostCard bileşenini memo ile sararak gereksiz render'ları önlüyoruz
+// Wrapping PostCard with memo to prevent unnecessary renders
 const PostCard = memo(({ post, onMouseEnter, onMouseLeave }) => (
   <article 
     key={post.id} 
@@ -17,8 +17,8 @@ const PostCard = memo(({ post, onMouseEnter, onMouseLeave }) => (
           src={post.image}
           alt={post.title}
           className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy" // Görünüm alanına girene kadar resmi yükleme
-          decoding="async" // Async çözümleme
+          loading="lazy" // Load image only when it enters the viewport
+          decoding="async" // Async decoding
           width="800"
           height="450"
         />
@@ -58,7 +58,7 @@ export default function Blog({ blogs }) {
   const hoverTimeoutRef = useRef(null)
   const intersectionObserverRef = useRef(null)
 
-  // event handler'larını useCallback ile sabitliyoruz
+  // Optimizing event handlers with useCallback
   const handleMouseEnter = useCallback((id) => {
     if (hoverTimeoutRef.current) {
       clearTimeout(hoverTimeoutRef.current)
@@ -79,7 +79,7 @@ export default function Blog({ blogs }) {
     setShowAll(prev => !prev)
   }, [])
 
-  // Blog postlarını useMemo ile bellek önbelleğine alıyoruz
+  // Caching blog posts with useMemo
   const blogPosts = useMemo(() => [
     {
       id: 1,
@@ -136,17 +136,17 @@ export default function Blog({ blogs }) {
     setVisiblePosts(blogPosts.slice(0, showAll ? blogPosts.length : 3));
   }, [showAll, blogPosts]);
 
-  // Intersection Observer ile lazy loading için
+  // For lazy loading with Intersection Observer
   useEffect(() => {
-    // View All Articles butonunu gözlemleyelim
+    // Observe the View All Articles button
     const loadMoreButton = document.getElementById('load-more-button');
     if (!loadMoreButton) return;
 
     const observerCallback = (entries) => {
       entries.forEach(entry => {
-        // Kullanıcı butona yaklaştığında tüm blog postlarını önceden yükleyelim
+        // Preload all blog posts when user approaches the button
         if (entry.isIntersecting && !showAll) {
-          // Tüm postlar için resimler önceden yükleyelim
+          // Preload images for all posts
           blogPosts.slice(3).forEach(post => {
             const img = new Image();
             img.src = post.image;
@@ -157,7 +157,7 @@ export default function Blog({ blogs }) {
 
     const observerOptions = {
       root: null,
-      rootMargin: '200px', // Buton görünüm alanından 200px öncesinde tetikle
+      rootMargin: '200px', // Trigger 200px before the button enters the viewport
       threshold: 0.1
     };
 

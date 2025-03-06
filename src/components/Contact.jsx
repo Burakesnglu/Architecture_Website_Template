@@ -1,7 +1,7 @@
 import React, { useState, useCallback, memo } from 'react'
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, ClockIcon } from '@heroicons/react/24/outline'
 
-// Sosyal medya ikonları
+// Social media icons
 const SocialIcons = {
   facebook: (
     <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -25,7 +25,7 @@ const SocialIcons = {
   )
 };
 
-// İletişim Bilgisi Kartı
+// Contact Information Card
 const ContactInfoItem = memo(({ icon, title, content }) => (
   <div className="flex items-start space-x-4">
     <div className="flex-shrink-0 p-3 bg-gray-800 rounded-full">
@@ -38,20 +38,7 @@ const ContactInfoItem = memo(({ icon, title, content }) => (
   </div>
 ));
 
-// Sosyal Medya Butonu
-const SocialButton = memo(({ name, icon }) => (
-  <a 
-    href={`https://${name}.com`} 
-    target="_blank" 
-    rel="noopener noreferrer" 
-    className="p-2 border border-gray-700 rounded-full hover:bg-gray-800 transition-colors duration-300"
-    aria-label={name}
-  >
-    {icon}
-  </a>
-));
-
-// Form girişi
+// Form input
 const FormInput = memo(({ label, id, type, value, onChange, placeholder, error }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -80,7 +67,7 @@ export default function Contact() {
   })
   const [errors, setErrors] = useState({})
 
-  // Event handler'ları optimize ediyoruz
+  // Optimizing event handlers
   const handleSubmit = useCallback(async (e) => {
     e.preventDefault()
     setFormStatus('sending')
@@ -105,7 +92,7 @@ export default function Contact() {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
     
-    // Kullanıcı yazarken anlık doğrulama için hataları temizleyelim
+    // Clear errors for real-time validation while user is typing
     if (errors[name]) {
       setErrors(prev => {
         const newErrors = { ...prev }
@@ -124,7 +111,7 @@ export default function Contact() {
     return newErrors
   }
 
-  // İletişim bilgileri
+  // Contact information
   const contactInfo = [
     {
       icon: <PhoneIcon className="h-6 w-6" />,

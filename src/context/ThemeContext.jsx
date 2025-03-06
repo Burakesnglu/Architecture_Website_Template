@@ -4,7 +4,7 @@ const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
-    // Local storage'dan tercihi al veya sistem tercihini kullan
+    // Get preference from local storage or use system preference
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       return savedTheme === 'dark';
@@ -13,7 +13,7 @@ export const ThemeProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    // Dark mode değiştiğinde DOM'u güncelle
+    // Update DOM when dark mode changes
     document.documentElement.classList.toggle('dark', isDarkMode);
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);

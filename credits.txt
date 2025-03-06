@@ -1,0 +1,60 @@
+# Image Sources and License Information
+
+## Unsplash Images
+All of the following images are used under the [Unsplash License](https://unsplash.com/license):
+
+### Projects Page and Detail Pages
+- https://images.unsplash.com/photo-1600585154340-be6161a56a0c
+- https://images.unsplash.com/photo-1600607687939-ce8a6c25118c
+- https://images.unsplash.com/photo-1545324418-cc1a3fa10c00
+- https://images.unsplash.com/photo-1600585154526-990dced4db0d
+- https://images.unsplash.com/photo-1600573472550-8090b5e0745e
+- https://images.unsplash.com/photo-1600566752355-35792bedcfea
+
+### Portfolio Page and Detail Pages
+- https://images.unsplash.com/photo-1497366754035-f200968a6e72
+- https://images.unsplash.com/photo-1497366811353-6870744d04b2
+- https://images.unsplash.com/photo-1524758631624-e2822e304c36
+- https://images.unsplash.com/photo-1519999482648-25049ddd37b1
+- https://images.unsplash.com/photo-1517581177682-a085bb7ffb15
+- https://images.unsplash.com/photo-1494522358652-f30e61a60313
+- https://images.unsplash.com/photo-1503676260728-1c00da094a0b
+- https://images.unsplash.com/photo-1541339907198-e08756dedf3f
+- https://images.unsplash.com/photo-1544717302-de2939b7ef71
+- https://images.unsplash.com/photo-1520250497591-112f2f40a3f4
+- https://images.unsplash.com/photo-1582719508461-905c673771fd
+- https://images.unsplash.com/photo-1564501049412-61c2a3083791
+- https://images.unsplash.com/photo-1461988320302-91bde64fc8e4
+- https://images.unsplash.com/photo-1506786323093-7616464ecab5
+- https://images.unsplash.com/photo-1506905925346-21bda4d32df4
+
+### Blog Page and Detail Pages
+- https://images.unsplash.com/photo-1600585154340-be6161a56a0c
+- https://images.unsplash.com/photo-1600573472550-8090b5e0745e
+- https://images.unsplash.com/photo-1600607687939-ce8a6c25118c
+- https://images.unsplash.com/photo-1519558260268-cde7e03a0152
+- https://images.unsplash.com/photo-1523217582562-09d0def993a6
+- https://images.unsplash.com/photo-1509391366360-2e959784a276
+
+### Author Profile Images
+- https://images.unsplash.com/photo-1494790108377-be9c29b29330
+- https://images.unsplash.com/photo-1500648767791-00dcc994a43e
+- https://images.unsplash.com/photo-1573496359142-b8d87734a5a2
+- https://images.unsplash.com/photo-1506794778202-cad84cf45f1d
+- https://images.unsplash.com/photo-1544005313-94ddf0286df2
+- https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d
+
+### About Page
+- https://images.unsplash.com/photo-1503387762-592deb58ef4e
+
+### Hero Section
+- https://images.unsplash.com/photo-1600585154340-be6161a56a0c
+
+## Logo
+- The logo was created using Canva's AI tool and is used under Canva's [Free Media License Agreement](https://www.canva.com/policies/free-media-license-agreement/).
+
+## Framework Images
+- react.svg - Part of the React framework and used under the MIT license.
+- vite.svg - Part of the Vite build tool and used under the MIT license.
+
+All images listed in this document are suitable for use in a template to be sold on ThemeForest under the specified licenses. 

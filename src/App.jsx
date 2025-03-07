@@ -72,14 +72,6 @@ export default function App() {
       setIsLoading(false)
     })
 
-    // Prefetch critical components for better performance
-    const prefetchComponents = async () => {
-      const components = [Hero, About, Projects]
-      await Promise.all(components.map(comp => comp.preload()))
-    }
-
-    prefetchComponents()
-
     return () => {
       window.removeEventListener('load', () => setIsLoading(false))
     }

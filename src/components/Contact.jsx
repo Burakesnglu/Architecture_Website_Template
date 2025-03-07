@@ -38,6 +38,17 @@ const ContactInfoItem = memo(({ icon, title, content }) => (
   </div>
 ));
 
+// Social Button Component
+const SocialButton = memo(({ name, icon }) => (
+  <a
+    href={`#${name}`}
+    className="p-3 bg-gray-700 hover:bg-gray-600 rounded-full text-white transition-colors duration-200"
+    aria-label={`Visit our ${name} page`}
+  >
+    {icon}
+  </a>
+));
+
 // Form input
 const FormInput = memo(({ label, id, type, value, onChange, placeholder, error }) => (
   <div>
